@@ -21,8 +21,9 @@ app.use ('/blogs', blogsRoute);
 
 
 
+
 app.get('/', (req: Request, res: Response) => {
-  res.send('Доброе утро!!!')
+  res.send('Не Доброе утро!!!')
 })    
 
 app.delete ('/testing/all-data', (req: Request, res: Response) => {
