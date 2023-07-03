@@ -11,6 +11,7 @@ const port = 3003
 
 
 
+
 app.use(bodyParser());                        
 app.use(express.json());
 app.use ('/posts', postsRoute);
