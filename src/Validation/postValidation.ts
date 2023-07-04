@@ -26,7 +26,7 @@ export const errorValidationMiddleware = (req: Request, res: Response, next:Next
     if(!errors.isEmpty()){
       const errArr = errors.array({onlyFirstError: true})
 
-      return res.status(httpStatusCodes.BAD_REQUEST_400).json({errorssMesages: errArr})       //2ss 
+      return res.status(httpStatusCodes.BAD_REQUEST_400).json({errorsMessages: errArr})       //2ss 
     }
     else 
     {

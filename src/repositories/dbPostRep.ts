@@ -36,10 +36,9 @@ export const postsRepositories = {
     else {return false}
  },
  deletePost(id: string) {
-  const postIndex = db.posts.findIndex(item => item.id === id)
-  if(postIndex === -1)
-  return false
-  db.blogs.splice(postIndex, 1)
+  const post = db.posts.find(p => p.id === id)
+  if(!post)return false
+  db.posts = db.posts.filter(p => p.id !== id)
   return true
 } 
 }
