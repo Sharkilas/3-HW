@@ -10,6 +10,6 @@ export const authGuardMiddleware = (req: Request, res: Response, next: NextFunct
   if (req.headers.authorization === `Basic ${code}`) {
       next();
     } else {
-      res.send(httpStatusCodes.UNAUTHORIZED_401)
+      res.sendStatus(httpStatusCodes.UNAUTHORIZED_401)
     }
   }

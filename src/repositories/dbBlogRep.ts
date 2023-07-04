@@ -2,6 +2,7 @@ import { TBlogDbModel, TBlogViewModel, TCreateBlogInputModel, TUpdateBlogInputMo
 import { Request, Response } from "express";
 import { getRandomId } from "../Helper/Helper";
 import { db } from "./db";
+import { randomUUID } from "crypto";
 
   export const blogsRepositories = {
   getBlogs() {
@@ -27,7 +28,7 @@ import { db } from "./db";
 
   createBlog({name, description, websiteUrl}: TCreateBlogInputModel): TBlogViewModel {                   
     const newBlog: TBlogDbModel = {
-      id:	getRandomId(),
+      id:	randomUUID(),                      // todo почитай 
       name:	name,
       description:	description,
       websiteUrl: websiteUrl, 
