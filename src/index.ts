@@ -22,7 +22,7 @@ app.use ('/posts', postsRoute);
 
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Не Доброе утро!!!!!')
+  res.send('Очень Доброе утро!!!!!')
 })    
 
 app.delete ('/testing/all-data', (req: Request, res: Response) => {
