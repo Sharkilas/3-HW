@@ -5,7 +5,7 @@ import { httpStatusCodes } from './http-status-codes/http-status-codes';
 import { blogsRoute } from './routes/blogs-routes';
 import { postsRoute } from './routes/posts-routers';
 import { db } from './repositories/db';
-const app = express()
+export const app = express()
 const port = 3003
 
 

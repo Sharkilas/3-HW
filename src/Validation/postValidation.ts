@@ -13,6 +13,11 @@ export const blogIdPostValidation = body("blogId").exists().isString().trim().no
   return true                                                                       
 });
 export const blogNamePostValidation = body("blogName").isString().trim().notEmpty().isLength({max: 15});
+export const createdAtPostValidation = body("createdAt").exists().isString().isDate().trim().notEmpty()
+
+
+
+
 
 
 

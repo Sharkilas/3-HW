@@ -1,6 +1,6 @@
 {
-    "version": 2,                         
-    "name": "HomeWork1",                      
+    "version": 3,                         
+    "name": "HomeWork3",                      
     "builds": [
       {
         "src": "src/index.ts",                   

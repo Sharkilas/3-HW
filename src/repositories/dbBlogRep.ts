@@ -1,23 +1,25 @@
 import { TBlogDbModel, TBlogViewModel, TCreateBlogInputModel, TUpdateBlogInputModel} from "../models/BlogsPostsmodels"
 import { Request, Response } from "express";
-import { getRandomId } from "../Helper/Helper";
+import { currentDate, getRandomId } from "../Helper/Helper";
 import { db } from "./db";
 import { randomUUID } from "crypto";
 
   export const blogsRepositories = {
-  getBlogs() {
+  async getBlogs() {
     return db.blogs
   },
-  getBlogById(id: string) {
+  async getBlogById(id: string) {
      return db.blogs.find(p=>p.id===id)
      },
 
-  updateBlog(updateBlogModel: TUpdateBlogInputModel): boolean {
+  async updateBlog(updateBlogModel: TUpdateBlogInputModel): Promise <boolean> {
     let filterBlogs =  db.blogs.find(b=>b.id=== updateBlogModel.id)
     if (filterBlogs) {
       filterBlogs.name = updateBlogModel.name;                       
       filterBlogs.description = updateBlogModel.description;
-      filterBlogs.websiteUrl = updateBlogModel.websiteUrl
+      filterBlogs.websiteUrl = updateBlogModel.websiteUrl;
+      filterBlogs.createdAt = currentDate.toISOString();
+      filterBlogs.isMembership = true
 
       return true
       }
@@ -26,18 +28,20 @@ import { randomUUID } from "crypto";
 
   },
 
-  createBlog({name, description, websiteUrl}: TCreateBlogInputModel): TBlogViewModel {                   
+  async createBlog({name, description, websiteUrl}: TCreateBlogInputModel): Promise <TBlogViewModel> {                   
     const newBlog: TBlogDbModel = {
       id:	randomUUID(),                      // todo почитай 
       name:	name,
       description:	description,
-      websiteUrl: websiteUrl, 
+      websiteUrl: websiteUrl,
+      createdAt: currentDate.toISOString(),
+      isMembership: true
   }
     db.blogs.push(newBlog); 
     return newBlog      
 
 }, 
-  deleteBlog(id: string) {
+  async deleteBlog(id: string) {
     const blogIndex = db.blogs.findIndex(item => item.id === id)
     if(blogIndex === -1)
     return false

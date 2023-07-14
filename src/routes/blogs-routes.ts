@@ -7,6 +7,7 @@ import {descriptionBlogValidation, nameBlogValidation, websiteBlogUrlValidation}
 import { errorValidationMiddleware } from "../Validation/postValidation";
 import { TUpdateBlogInputModel } from "../models/BlogsPostsmodels";
 import { authGuardMiddleware } from "../autorization/autorizationmidleware";
+import { currentDate } from "../Helper/Helper";
 
 
 
@@ -14,12 +15,12 @@ export const blogsRoute = Router ({})
 
 
 
-blogsRoute.get('/', (req: Request, res: Response) => {
-      res.send(blogsRepositories.getBlogs()).sendStatus(httpStatusCodes.OK_200)
+blogsRoute.get('/', async (req: Request, res: Response) => {
+      res.send(await blogsRepositories.getBlogs()).sendStatus(httpStatusCodes.OK_200)
  })
 
-blogsRoute.get('/:id', (req: Request, res: Response) => {
-    let foundBlogs = blogsRepositories.getBlogById(req.params.id);
+blogsRoute.get('/:id', async (req: Request, res: Response) => {
+    let foundBlogs = await blogsRepositories.getBlogById(req.params.id);
     if (foundBlogs) {
         res.status(httpStatusCodes.OK_200).json(foundBlogs)   ///TODO
       } else {
@@ -35,11 +36,11 @@ websiteBlogUrlValidation,
 nameBlogValidation,
 descriptionBlogValidation,
 errorValidationMiddleware,
-(req: Request, res: Response) => {
+async (req: Request, res: Response) => {
   const name = req.body.name
   const description = req.body.description
   const websiteUrl = req.body.websiteUrl
-  const createdBlog = blogsRepositories.createBlog({name, description, websiteUrl})
+  const createdBlog = await blogsRepositories.createBlog({name, description, websiteUrl})
     res.status(httpStatusCodes.CREATED_201).send(createdBlog)
 })
       
@@ -50,14 +51,16 @@ websiteBlogUrlValidation,
 nameBlogValidation,
 descriptionBlogValidation,
 errorValidationMiddleware,
-(req: Request, res: Response) => {
+async (req: Request, res: Response) => {
   const updateBlogModel: TUpdateBlogInputModel = {
     id: req.params.id,
     name: req.body.name,
     description: req.body.description,
-    websiteUrl: req.body.websiteUrl
+    websiteUrl: req.body.websiteUrl,
+    createdAt: currentDate.toISOString(),
+    isMembership: true
   }
-  const updatedBlogs: Boolean = blogsRepositories.updateBlog(updateBlogModel) 
+  const updatedBlogs: Boolean = await blogsRepositories.updateBlog(updateBlogModel) 
     
   if (!updatedBlogs) {
    return res.sendStatus(httpStatusCodes.NOT_FOUND_404)
@@ -67,8 +70,8 @@ errorValidationMiddleware,
 
   blogsRoute.delete('/:id', 
   authGuardMiddleware,
-  (req: Request, res: Response) => {
-    let isDeleted: boolean = blogsRepositories.deleteBlog(req.params.id);
+  async (req: Request, res: Response) => {
+    let isDeleted: boolean = await blogsRepositories.deleteBlog(req.params.id);
     if (!isDeleted) {
         res.sendStatus(httpStatusCodes.NOT_FOUND_404)
       } else {

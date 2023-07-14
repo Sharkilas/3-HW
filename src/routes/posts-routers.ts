@@ -13,12 +13,12 @@ export const postsRoute = Router ({})
 
 
   
-postsRoute.get('/', (req: Request, res: Response) => {
-    res.send(postsRepositories.getPosts()).sendStatus(httpStatusCodes.OK_200)                   //res.send(httpStatusCodes.OK_200).send(dbVideos) выдает ошибку попробую по другому
+postsRoute.get('/', async (req: Request, res: Response) => {
+    res.send(await postsRepositories.getPosts()).sendStatus(httpStatusCodes.OK_200)                   //res.send(httpStatusCodes.OK_200).send(dbVideos) выдает ошибку попробую по другому
   })
   
-postsRoute.get('/:id', (req: Request, res: Response) => {
-  let foundPost = postsRepositories.getPostsId(req.params.id);
+postsRoute.get('/:id', async (req: Request, res: Response) => {
+  let foundPost = await postsRepositories.getPostsId(req.params.id);
   if (foundPost) {
     res.status(httpStatusCodes.OK_200).json(foundPost)    
       } else {
@@ -32,13 +32,13 @@ postsRoute.post('/',
   contentPostValidation,
   blogIdPostValidation,
   errorValidationMiddleware,                  
-(req: Request, res: Response) => { 
+async  (req: Request, res: Response) => { 
  const title = req.body.title
  const shortDescription = req.body.shortDescription
  const content = req.body.content
  const blogId = req.body.blogId
 
-const createdPost = postsRepositories.createPosts({title, shortDescription, content, blogId})
+const createdPost = await postsRepositories.createPosts({title, shortDescription, content, blogId})
   res.status(httpStatusCodes.CREATED_201).send(createdPost)
 })
    
@@ -51,7 +51,7 @@ postsRoute.put('/:id',
   contentPostValidation,
   blogIdPostValidation,
   errorValidationMiddleware, 
-(req: Request, res: Response) => { 
+  async (req: Request, res: Response) => { 
   const updatedPostModel: TUpdatePostInputModels = {   // исправить как в блоге
   id: req.params.id,
   title: req.body.title,
@@ -59,7 +59,7 @@ postsRoute.put('/:id',
   content: req.body.content,
   blogId: req.body.blogId
    } 
-   const updatedPost: Boolean = postsRepositories.updatePost(updatedPostModel)  
+   const updatedPost: Boolean = await postsRepositories.updatePost(updatedPostModel)  
   if (!updatedPost) {
    return res.sendStatus(httpStatusCodes.NOT_FOUND_404)
   }
@@ -68,8 +68,8 @@ postsRoute.put('/:id',
 
 postsRoute.delete('/:id', 
 authGuardMiddleware,
-(req: Request, res: Response) => {
-    let isDeleted: boolean = postsRepositories.deletePost(req.params.id);
+async  (req: Request, res: Response) => {
+    let isDeleted: boolean = await postsRepositories.deletePost(req.params.id);
     if (!isDeleted) {
         res.sendStatus(httpStatusCodes.NOT_FOUND_404)
       } else {
