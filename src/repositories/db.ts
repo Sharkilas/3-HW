@@ -1,6 +1,28 @@
 import { TBlogDbModel, TBlogViewModel, TCreateBlogInputModel, TPostDbModels, TUpdateBlogInputModel} from "../models/BlogsPostsmodels"
 import { Request, Response } from "express";
 import { getRandomId } from "../Helper/Helper";
+import { MongoClient } from 'mongodb'
+import dotenv from 'dotenv'
+dotenv.config()
+
+const mongoURI = process.env.MONGO_URL || 'mongodb//:0.0.0.0:27017'
+export const client = new MongoClient(mongoURI);
+
+export let blogsClientCollection = client.db("homework-api").collection<TBlogDbModel>('blogs'); 
+export let postsClientCollection = client.db("homework-api").collection<TPostDbModels>('posts'); 
+
+export async function runDB () {
+  try {
+    await client.connect();                                                        // точно это надо?
+    await client.db("homework-api").command({ping: 1});
+    console.log("Connected successufully to mongo server");
+    }
+    catch {
+      console.log("Can't connect to db");
+      await client.close();
+    }
+  
+} 
 
 
 

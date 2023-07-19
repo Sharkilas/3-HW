@@ -5,7 +5,7 @@ import { errorsMessages, httpStatusCodes } from "../http-status-codes/http-statu
 import { blogIdPostValidation, contentPostValidation, errorValidationMiddleware, idPostValidation, shortDescriptionPostValidation, titlePostValidation } from "../Validation/postValidation";
 import {body, validationResult} from "express-validator";
 import { TCreatePostInputModels, TUpdatePostInputModels } from "../models/BlogsPostsmodels";
-import { postsRepositories } from "../repositories/dbPostRep";
+import { postsRepositories } from "../repositories/Post-in-memory-Rep";
 import { authGuardMiddleware } from "../autorization/autorizationmidleware";
 
 export const postsRoute = Router ({})  

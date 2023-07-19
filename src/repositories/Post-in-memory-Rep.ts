@@ -25,7 +25,7 @@ export const postsRepositories = {
   db.posts.push(newPost)
   return newPost  
  },
- async updatePost ({id, shortDescription, content, title, blogId}:TUpdatePostInputModels) {                  
+ async updatePost ({id, shortDescription, content, title, blogId}:TUpdatePostInputModels): Promise <boolean> {                  
   let filterPosts =  db.posts.find(p=>p.id===id)
   if (filterPosts) {
     filterPosts.title = title
