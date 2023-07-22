@@ -16,13 +16,13 @@ export const blogsRoute = Router ({})
 
 
 blogsRoute.get('/', async (req: Request, res: Response) => {
-      res.send(await blogsRepositories.getBlogs()).sendStatus(httpStatusCodes.OK_200)
+      res.status(httpStatusCodes.OK_200).send(await blogsRepositories.getBlogs())
  })
 
 blogsRoute.get('/:id', async (req: Request, res: Response) => {
     let foundBlogs = await blogsRepositories.getBlogById(req.params.id);
     if (foundBlogs) {
-        res.status(httpStatusCodes.OK_200).json(foundBlogs)   ///TODO
+        res.status(httpStatusCodes.OK_200).json(foundBlogs)   
       } else {
         res.sendStatus(404)
       }

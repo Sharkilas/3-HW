@@ -14,7 +14,7 @@ export const postsRoute = Router ({})
 
   
 postsRoute.get('/', async (req: Request, res: Response) => {
-    res.send(await postsRepositories.getPosts()).sendStatus(httpStatusCodes.OK_200)                   //res.send(httpStatusCodes.OK_200).send(dbVideos) выдает ошибку попробую по другому
+    res.status(httpStatusCodes.OK_200).send(await postsRepositories.getPosts())                   //res.send(httpStatusCodes.OK_200).send(dbVideos) выдает ошибку попробую по другому
   })
   
 postsRoute.get('/:id', async (req: Request, res: Response) => {
