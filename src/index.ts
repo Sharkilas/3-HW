@@ -8,8 +8,6 @@ import { db, runDB } from './repositories/db';
 export const app = express()
 const port = process.env.port || 3003 //const port = process.env.port || 3003
 dotenv.config()
-
-
                    
 app.use(express.json());
 
@@ -17,10 +15,8 @@ app.use ('/blogs', blogsRoute);
 app.use ('/posts', postsRoute);
 
 
-
-
 app.get('/', (req: Request, res: Response) => {
-  res.send('Очень Доброе утро!!!!!')
+  res.send('Очень Доброе утро 22/07!!!!!')
 })    
 
 app.delete ('/testing/all-data', (req: Request, res: Response) => {
