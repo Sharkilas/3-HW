@@ -4,7 +4,7 @@ import { httpStatusCodes } from './http-status-codes/http-status-codes';
 import dotenv from 'dotenv'
 import { blogsRoute } from './routes/blogs-routes';
 import { postsRoute } from './routes/posts-routers';
-import { db, runDB } from './repositories/db';
+import { blogsClientCollection, db, postsClientCollection, runDB } from './repositories/db';
 export const app = express()
 const port = process.env.port || 3003 //const port = process.env.port || 3003
 dotenv.config()
@@ -20,8 +20,8 @@ app.get('/', (req: Request, res: Response) => {
 })    
 
 app.delete ('/testing/all-data', (req: Request, res: Response) => {
-  db.posts = [];
-  db.blogs = []
+  blogsClientCollection.deleteMany();
+  postsClientCollection.deleteMany();
   res.sendStatus(204) 
 })
   
