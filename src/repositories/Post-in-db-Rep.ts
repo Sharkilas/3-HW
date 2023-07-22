@@ -9,7 +9,7 @@ import { title } from "process";
 
 export const postsRepositories = {
   async getPosts() {
-    return postsClientCollection
+    return postsClientCollection.find().toArray()
   }, 
   async getPostsId(id: string ): Promise<TPostDbModels| null>  {
     const filter: any = {}                       

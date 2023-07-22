@@ -9,7 +9,8 @@ export const authGuardMiddleware = (req: Request, res: Response, next: NextFunct
   const code = Buffer.from("admin:qwerty").toString('base64')  
   if (req.headers.authorization === `Basic ${code}`) {
       next();
-    } else {
+  }else 
+  {
       res.sendStatus(httpStatusCodes.UNAUTHORIZED_401)
-    }
   }
+}

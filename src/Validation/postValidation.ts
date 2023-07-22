@@ -31,11 +31,11 @@ export const errorValidationMiddleware = (req: Request, res: Response, next:Next
     if(!errors.isEmpty()){
       const errArr = errors.array({onlyFirstError: true})
 
-      return res.status(httpStatusCodes.BAD_REQUEST_400).json({errorsMessages: errArr})       //2ss 
+       res.status(httpStatusCodes.BAD_REQUEST_400).json({errorsMessages: errArr})       //2ss 
     }
     else 
     {
-      return next()
+       next()
     }
   }
     
