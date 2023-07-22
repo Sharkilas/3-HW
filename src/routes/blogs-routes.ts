@@ -1,6 +1,6 @@
 import { Router } from "express"
 import { errorsMessages, httpStatusCodes } from "../http-status-codes/http-status-codes";
-import { blogsRepositories } from "../repositories/Blog-in-memory-Rep"
+import { blogsRepositories } from "../repositories/Blog-in-db-Rep"
 import { Request, Response } from "express";
 import {body, validationResult} from "express-validator";
 import {descriptionBlogValidation, nameBlogValidation, websiteBlogUrlValidation} from "../Validation/blogValidation"; //
