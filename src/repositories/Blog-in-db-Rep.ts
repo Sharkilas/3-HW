@@ -1,4 +1,4 @@
-import { TBlogDbModel, TBlogViewModel, TCreateBlogInputModel, TUpdateBlogInputModel} from "../models/BlogsPostsmodels"
+import { BlogModelDb, BlogModelMongoDb, TBlogDbModel, TBlogViewModel, TCreateBlogInputModel, TUpdateBlogInputModel} from "../models/BlogsPostsmodels"
 import { Request, Response } from "express";
 import { currentDate, getRandomId } from "../Helper/Helper";
 import { blogsClientCollection, client, db } from "./db";
@@ -9,20 +9,17 @@ import { randomUUID } from "crypto";
   async getBlogs() {
     return blogsClientCollection.find().toArray()               // в вмдео не было но мне кажется так правильно                                
   },
-  async getBlogById(id: string): Promise<TBlogDbModel| null> {           // не понятно какие нужно указывать модели
-     const filter: any = {}                       
-     if (id)
-     {filter.id= {$regex: id}                            // как в видео не подчеркивает ID
-     }
+  async getBlogById(id: string): Promise<BlogModelDb| null> { 
     
-    return await blogsClientCollection.findOne(filter)
+    return await blogsClientCollection.findOne({id})
      },
 
      async updateBlog({id, name, description, websiteUrl}: TUpdateBlogInputModel): Promise <boolean> {
-    const result = await blogsClientCollection.updateOne({id: id}, {$set: {name: name, description: description, websiteUrl: websiteUrl, createdAt: currentDate.toISOString()}})
+    const result = await blogsClientCollection.updateOne({id: id}, {$set: {name: name, description: description, websiteUrl: websiteUrl}})
       return result.modifiedCount === 1
      },
 
+     //TODO: map || mongodb projection чтобы убрать монго id
 
   async createBlog({name, description, websiteUrl}: TCreateBlogInputModel): Promise <TBlogViewModel> {                   
     const newBlog: TBlogDbModel = {
@@ -31,13 +28,22 @@ import { randomUUID } from "crypto";
       description:	description,
       websiteUrl: websiteUrl,
       createdAt: currentDate.toISOString(),
-      isMembership: true
+      isMembership: false
   }
   
-   const result =  await blogsClientCollection.insertOne(newBlog)
-   return newBlog      
+   await blogsClientCollection.insertOne({...newBlog});
+  
+   return newBlog   
 
 }, 
+// result.insertedId
+   //const: TBlogDbModel = newBlog.map()
+   //const withIdResult: any = blogsClientCollection.find({name:	name}).project({
+    //id:1, name:1, description:1, websiteUrl:1, createdAt:1, isMembership:1, _id:0});
+    // const withIdResult: BlogModelMongoDb = newBlog.shift()
+
+
+
   async deleteBlog(id: string): Promise <boolean> {
   const result = await blogsClientCollection.deleteOne({id: id}) 
   return  result.deletedCount === 1

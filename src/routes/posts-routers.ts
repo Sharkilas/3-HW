@@ -2,7 +2,7 @@ import { Router } from "express";
 import { Request, Response } from "express";
 import { errorsMessages, httpStatusCodes } from "../http-status-codes/http-status-codes";
 
-import { blogIdPostValidation, contentPostValidation, errorValidationMiddleware, idPostValidation, shortDescriptionPostValidation, titlePostValidation } from "../Validation/postValidation";
+import { blogIdPostValidation, contentPostValidation, errorValidationMiddleware,  shortDescriptionPostValidation, titlePostValidation } from "../Validation/postValidation";
 import {body, validationResult} from "express-validator";
 import { TCreatePostInputModels, TUpdatePostInputModels } from "../models/BlogsPostsmodels";
 import { postsRepositories } from "../repositories/Post-in-db-Rep";

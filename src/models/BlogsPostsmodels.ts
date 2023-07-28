@@ -1,3 +1,5 @@
+import { WithId } from "mongodb"
+
 export type TCreatePostInputModels =
 {
     title: string,
@@ -56,6 +58,16 @@ export type TUpdateBlogInputModel = {
   createdAt: string,
   isMembership: true
 }
+export type BlogModelMongoDb =WithId<TBlogDbModelDb>
+
+
+export type TBlogDbModelDb = {
+  name: string,
+  description: string,
+  websiteUrl: string,
+  createdAt: string,
+  isMembership: boolean
+}
 
 export type TBlogDbModel = {
   id: string,
@@ -63,7 +75,7 @@ export type TBlogDbModel = {
   description: string,
   websiteUrl: string,
   createdAt: string,
-  isMembership: true
+  isMembership: boolean
 }
 
 export type TBlogViewModel = {
@@ -72,6 +84,6 @@ export type TBlogViewModel = {
   description: string,
   websiteUrl: string,
   createdAt: string,
-  isMembership: true
+  isMembership: boolean
 
 }

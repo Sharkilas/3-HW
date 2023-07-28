@@ -19,18 +19,19 @@ export const postsRepositories = {
      return await postsClientCollection.findOne(filter)
      
   },
-  async createPosts({title, shortDescription, content, blogId}: TCreatePostInputModels): Promise <TPostViewModels> {                        // пришлось прописывать типы (res: Response, req: Request) по другому выдавал ошибку
-  const blog =  await blogsClientCollection.findOne({id: blogId})        
+  async createPosts({title, shortDescription, content, blogId}: TCreatePostInputModels): Promise <TPostViewModels | null> {        // пришлось прописывать типы (res: Response, req: Request) по другому выдавал ошибку
+  const blog =  await blogsClientCollection.findOne({id: blogId})  
+  if(!blog) return null      
     const newPost: TPostViewModels = {
     id: randomUUID(),
     title: title,
     shortDescription: shortDescription,
     content: content,
     blogId: blogId,
-    blogName: blog!.name,
+    blogName: blog.name,
     createdAt: currentDate.toISOString(),
   } 
-  const result =  await postsClientCollection.insertOne(newPost)
+  await postsClientCollection.insertOne({...newPost})
   return newPost  
  },
  async updatePost({id, shortDescription, content, title, blogId}: TUpdatePostInputModels): Promise <boolean> {                  
