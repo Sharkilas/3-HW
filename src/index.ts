@@ -24,11 +24,10 @@ app.get('/', (req: Request, res: Response) => {
 app.delete ('/testing/all-data', 
 authGuardMiddleware,
 errorValidationMiddleware,
-(req: Request, res: Response) => {
-  blogsClientCollection.drop({})
-  postsClientCollection.drop({})
-  //blogsClientCollection.deleteMany({});   почему то не удаляет
-  //postsClientCollection.deleteMany({});    почему то не удаляет
+async (req: Request, res: Response) => {
+  await Promise.all 
+ blogsClientCollection.deleteMany({});  // почему то не удаляет
+postsClientCollection.deleteMany({});   // почему то не удаляет
   res.sendStatus(204) 
 })
   
