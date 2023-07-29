@@ -7,11 +7,11 @@ import { randomUUID } from "crypto";
   
   export const blogsRepositories = {
   async getBlogs() {
-    return blogsClientCollection.find().toArray()               // в вмдео не было но мне кажется так правильно                                
+    return blogsClientCollection.find({}, {projection: {_id: 0}}).toArray()               // в вмдео не было но мне кажется так правильно                                
   },
   async getBlogById(id: string): Promise<BlogModelMongoDb| null> { 
     
-    return await blogsClientCollection.findOne({id})
+    return await blogsClientCollection.findOne({id}, {projection: {_id: 0}})
      },
 
      async updateBlog({id, name, description, websiteUrl}: TUpdateBlogInputModel): Promise <boolean> {
@@ -32,9 +32,7 @@ import { randomUUID } from "crypto";
   }
   
    await blogsClientCollection.insertOne({...newBlog});
-  //1) не получилось  const neWithoutId: any = delete newBlog._id
- let _id
-  //2) const neWithoutId: BlogModelMongoDb = newBlog.delete(_id)
+
    return newBlog   
 
 }, 
@@ -49,5 +47,10 @@ import { randomUUID } from "crypto";
   async deleteBlog(id: string): Promise <boolean> {
   const result = await blogsClientCollection.deleteOne({id: id}) 
   return  result.deletedCount === 1
-  }
+  },
+ 
+  async deleteAllBlogs() {
+    await blogsClientCollection.deleteMany({})
+    return true
+  } 
 }
