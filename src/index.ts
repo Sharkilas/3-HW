@@ -20,8 +20,10 @@ app.get('/', (req: Request, res: Response) => {
 })    
 
 app.delete ('/testing/all-data', (req: Request, res: Response) => {
-  blogsClientCollection.deleteMany({});
-  postsClientCollection.deleteMany({});
+  blogsClientCollection.drop()
+  postsClientCollection.drop()
+  //blogsClientCollection.deleteMany({});   почему то не удаляет
+  //postsClientCollection.deleteMany({});    почему то не удаляет
   res.sendStatus(204) 
 })
   
