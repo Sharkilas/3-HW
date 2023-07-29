@@ -20,8 +20,8 @@ app.get('/', (req: Request, res: Response) => {
 })    
 
 app.delete ('/testing/all-data', (req: Request, res: Response) => {
-  blogsClientCollection.deleteMany();
-  postsClientCollection.deleteMany();
+  blogsClientCollection.deleteMany({});
+  postsClientCollection.deleteMany({});
   res.sendStatus(204) 
 })
   

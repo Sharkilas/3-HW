@@ -1,4 +1,4 @@
-import { BlogModelDb, BlogModelMongoDb, TBlogDbModel, TBlogViewModel, TCreateBlogInputModel, TUpdateBlogInputModel} from "../models/BlogsPostsmodels"
+import { BlogModelMongoDb, TBlogDbModel, TBlogViewModel, TCreateBlogInputModel, TUpdateBlogInputModel} from "../models/BlogsPostsmodels"
 import { Request, Response } from "express";
 import { currentDate, getRandomId } from "../Helper/Helper";
 import { blogsClientCollection, client, db } from "./db";
@@ -9,7 +9,7 @@ import { randomUUID } from "crypto";
   async getBlogs() {
     return blogsClientCollection.find().toArray()               // в вмдео не было но мне кажется так правильно                                
   },
-  async getBlogById(id: string): Promise<BlogModelDb| null> { 
+  async getBlogById(id: string): Promise<BlogModelMongoDb| null> { 
     
     return await blogsClientCollection.findOne({id})
      },
@@ -22,7 +22,7 @@ import { randomUUID } from "crypto";
      //TODO: map || mongodb projection чтобы убрать монго id
 
   async createBlog({name, description, websiteUrl}: TCreateBlogInputModel): Promise <TBlogViewModel> {                   
-    const newBlog: TBlogDbModel = {
+    const newBlog: TBlogDbModel = {         ////пробовал ставить BlogModelMongoDb все равно подчеркивает ошибку
       id:	randomUUID(),                     
       name:	name,
       description:	description,
@@ -32,7 +32,9 @@ import { randomUUID } from "crypto";
   }
   
    await blogsClientCollection.insertOne({...newBlog});
-  
+  //1) не получилось  const neWithoutId: any = delete newBlog._id
+ let _id
+  //2) const neWithoutId: BlogModelMongoDb = newBlog.delete(_id)
    return newBlog   
 
 }, 
