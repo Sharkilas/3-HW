@@ -21,16 +21,7 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Очень Доброе утро 29/07!!!!!')
 })    
 
-app.delete ('/testing/all-data', 
-  authGuardMiddleware,
-  errorValidationMiddleware,
-async (req: Request, res: Response) => {
-  await Promise.all([ 
-      blogsClientCollection.deleteMany({}),  
-      postsClientCollection.deleteMany({})
-]) 
-  res.sendStatus(204) 
-})
+
   
 const startApp = async () =>{
   await runDB()
