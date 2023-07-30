@@ -1,23 +1,9 @@
 import request from "supertest"
 import { httpStatusCodes } from "../src/http-status-codes/http-status-codes";
 import { app } from './../src';
-
-const createBlog = {
-"name": "Silich",
-"description": "string",
-"websiteUrl" : "https://samurai.it-incubator.io/pc/video-content/watch/clk9blozj08zcn113881muilc"
-};
-const headers= {
-    "Authorization": 'Basic YWRtaW46cXdlcnR5'
-}
-
-
-
 describe ('/blogs', () =>{
     beforeAll(async () => {
-        await request(app)
-        .delete('/testing/all-data')
-        .expect(httpStatusCodes.NO_CONTEND_204)
+        await request(app).delete('/testing/all-data')
     })
 
     it ('should return 200 add empty array', async () => {
@@ -27,11 +13,11 @@ describe ('/blogs', () =>{
         })
     it ('should return 404 for not existing blogs', async () => {
     await request(app)
-        .get("/blogs/11")
+        .get("/blogs/1")
         .expect (httpStatusCodes.BAD_REQUEST_400)
        })
 
-    it ("shouldn't create blogs with incorrect input data", async () => {
+    it ("should'nt create blogs with incorrect input data", async () => {
        await request(app)
        .post ('/blogs')
        .send ({name : ''})
@@ -107,8 +93,5 @@ describe ('/blogs', () =>{
         .get("/blogs")
         .expect (httpStatusCodes.OK_200, [])
     }) 
-    afterAll (done => {
-        done()
-    })
 
 })

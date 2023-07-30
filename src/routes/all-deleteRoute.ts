@@ -6,7 +6,7 @@ export const testingRouters = Router({})
 
 
 
-testingRouters.delete ('/testing/all-data', 
+testingRouters.delete ('/all-data', 
 async (req: Request, res: Response) => {
   await Promise.all([ 
       blogsClientCollection.deleteMany({}),  

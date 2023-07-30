@@ -7,14 +7,18 @@ import { postsRoute } from './routes/posts-routers';
 import { blogsClientCollection, db, postsClientCollection, runDB } from './repositories/db';
 import { authGuardMiddleware } from './autorization/autorizationmidleware';
 import { errorValidationMiddleware } from './Validation/postValidation';
+import { testingRouters } from './routes/all-deleteRoute';
 export const app = express()
 const port = process.env.port || 3003 //const port = process.env.port || 3003
 dotenv.config()
                    
 app.use(express.json());
 
-app.use ('/blogs', blogsRoute);
-app.use ('/posts', postsRoute);
+
+
+app.use('/blogs', blogsRoute);
+app.use('/posts', postsRoute);
+app.use('/testing',testingRouters)
 
 
 app.get('/', (req: Request, res: Response) => {
